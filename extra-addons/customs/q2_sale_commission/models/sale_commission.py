@@ -9,7 +9,7 @@ from datetime import timedelta
 import re
 import pytz
  
-# loque sea 
+# loque sea n
 class SaleCommission(models.Model):
     _inherit = "sale.commission"
     _description = "Commission in sales for actions"
