@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Tecnativa - Ernesto Tejeda
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="rma_delivery_supplier_wizard_action" model="ir.actions.act_window">
+        <field name="name">Return to supplier</field>
+        <field name="res_model">rma.delivery.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="rma.model_rma" />
+        <field name="binding_view_types">list</field>
+        <field name="target">new</field>
+        <field name="context">{'rma_delivery_type': 'return_supplier'}</field>
+    </record>
+</odoo>

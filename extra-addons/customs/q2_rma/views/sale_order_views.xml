@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_q2_rma_sale_order_form" model="ir.ui.view">
+        <field name="name">q2.rma.sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="groups_id" eval="[(4, ref('rma.rma_group_user_own'))]" />
+        <field name="arch" type="xml">
+            <button name="action_create_rma" position="replace">
+                <button
+                    name="action_create_rma"
+                    type="object"
+                    string="Create RMA * "
+                    class = "btn-danger"
+                    attrs="{'invisible': [('visible_button_create_rma', '=', False)]}"
+                />
+            </button>
+            <div name="button_box">
+                <button
+                    name="action_view_rma_refund"
+                    type="object"
+                    string="RMA"
+                    class="oe_stat_button"
+                    icon="fa-reply"
+                    attrs="{'invisible': [('rma_refund', '=', False)]}"
+                />
+            </div>
+            <sheet>
+                <field name="visible_button_create_rma" invisible="1" />
+                <field name="rma_refund_id" invisible="1" />
+                <field name="rma_refund" invisible="1" />
+            </sheet>
+        </field>
+    </record>
+</odoo>
+

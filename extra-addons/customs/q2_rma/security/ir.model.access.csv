@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_q2_rma.rma_move_send_to_stock_wizard,rma.rma_move_send_to_stock_wizard,model_rma_move_send_to_stock_wizard,base.group_user,1,1,1,1
+access_q2_rma.rma.delivery.wizard,rma.rma_delivery_wizard,model_rma_delivery_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sale_order_q2_product_default_location_view" model="ir.ui.view">
+        <field name="name">sale.order.q2_product_default_location.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='name']"
+                position="after"
+            >
+                <field name="q2_product_default_location" optional="show" />
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_order_line_q2_product_default_location_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.line.q2_product_default_location.tree</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="q2_product_default_location" optional="show" />
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_q2_product_default_location_view" model="ir.ui.view">
+        <field name="name">purchase.order.q2_product_default_location.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='name']"
+                position="after"
+            >
+                <field name="q2_product_default_location" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_q2_product_stock_location_kanban">
+        <field name="name">q2 Product Stock Location (kanban)</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-name='kanban-box']/div/div[2]/div[@class='mt-1']" position="after">
+              <!-- 
+              <t t-if="record.type">
+                <field name="record.type" optional="show" />
+                <div t-if="record.type.raw_value == 'product'">En stock: <field name="q2_product_stock_qty"/></div>
+                <div t-if="record.type.raw_value == 'product'">Ubi: <field name="q2_product_stock_ubi_qty"/></div>
+              </t>
+              -->
+              <div>En stock: <field name="q2_product_stock_qty"/></div>
+              <div>Ubi: <field name="q2_product_stock_ubi_qty"/></div> 
+            </xpath>
+        </field>
+    </record>
+    
+    <template id="report_q2_product_location" inherit_id="sale.report_saleorder_document">
+      <xpath expr="//td[@name='td_name']/span" position="after">	
+        <t t-if="line.q2_product_default_location">
+          <br/><span>UBI:</span><span t-field="line.q2_product_default_location"/>
+        </t>
+      </xpath> 
+    </template>
+</odoo>

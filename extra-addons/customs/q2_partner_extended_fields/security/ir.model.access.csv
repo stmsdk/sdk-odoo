@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_q2_partner_extended_fields_q2_partner_extended_fields,q2_partner_extended_fields.q2_partner_extended_fields,model_q2_partner_extended_fields_q2_partner_extended_fields,base.group_user,1,1,1,1

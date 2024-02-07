@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Ampliacion formulario -->
+    <record id="view_sale_order_q2_sale_order_extends_views_form" model="ir.ui.view">
+        <field name="name">view.q2_sale_order_extends_views.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='partner_details']" position="after">
+                <field name="label_is_cb" optional="show" widget="badge"
+                       decoration-info="label_is_cb == 'R'"
+                />
+                <field name="label_is_pg" optional="show" widget="badge"
+                       decoration-success="label_is_pg == 'P'"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Ampliacion formulario -->
+    <record id="view_sale_order_quotation_q2_sale_order_extends_views_details_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.quotation.q2_sale_order_extends_views_details.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="label_is_cb" optional="show" widget="badge"
+                       decoration-info="label_is_cb == 'R'"
+                />
+                <field name="label_is_pg" optional="show" widget="badge"
+                       decoration-success="label_is_pg == 'P'"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- Ampliacion formulario -->
+    <record id="view_sale_order_q2_sale_order_extends_views_details_tree_view" model="ir.ui.view">
+        <field name="name">sale.order_q2_sale_order_extends_views_details.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="label_is_cb" optional="show" widget="badge"
+                       decoration-info="label_is_cb == 'R'"
+                />
+                <field name="label_is_pg" optional="show" widget="badge"
+                       decoration-success="label_is_pg == 'P'"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- Ampliacion formulario -->
+    <record id="search_view_sale_q2_sale_order_extends_views_details" model="ir.ui.view">
+        <field name="name">sale.order_q2_sale_order_extends_views_details.tree.search.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                <filter name="filter_cb" string="Recibos" domain="[('q2_is_cb', '=', True)]"/>
+                <filter name="filter_cbnopg" string="Recibos pendientes" domain="[('q2_is_cb', '=', True),('q2_is_pg', '=', False)]"/>
+                <filter name="filter_cbpg" string="Recibos pagados" domain="[('q2_is_cb', '=', True),('q2_is_pg', '=', True)]"/>
+                <filter name="filter_nocb" string="Sin recibos" domain="[('q2_is_cb', '=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <data>
+    <record id="view_sale_order_q2_ws_form" model="ir.ui.view">
+        <field name="name">view.sale_order_q2_ws_form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+
+        <field name="arch" type="xml">
+            <!-- xpath expr="//form/header/field[@name='state']" position="before">
+              <button name="checked_is_ws" string="Servicio Taller" type="object" class="oe_highlight" attrs="{'invisible': [('q2_is_ws', '=', True)]}" />
+            </xpath -->
+            <xpath expr="//group[@name='order_details']" position="inside">
+              <field  name="q2_is_ws" 
+                      string="Es Servicio Taller" 
+                      widget='toggle_button' 
+                      readonly='1'
+              />
+              <field  name="q2_ws_status" 
+                      string="Estado en ST" 
+                      readonly="1"
+                      attrs="{'invisible': [('q2_is_ws', '=', False)] }"
+              />
+              <div attrs="{'invisible': [('q2_is_ws', '=', False)]}" >
+                <button name="action_eed_commercial_done" 
+                        string="Accion comercial realizada" 
+                        type="object" class="oe_highlight" 
+                        attrs="{'invisible': [('q2_ws_status','not in',['waitcom'])]}" />
+                <button name="action_eed_customer_done" 
+                        string="Confirmado por el cliente" 
+                        type="object" class="oe_highlight" 
+                        attrs="{'invisible': [('q2_ws_status','not in',['waitcfm'])]}" />
+              </div>  
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    name="action_view_workshop"
+                    type="object"
+                    string="Taller"
+                    class="oe_stat_button"
+                    icon="fa-wrench"
+                    attrs="{'invisible': [('q2_is_ws', '=', False)]}"
+                />
+            </xpath>
+
+
+
+        </field>
+    </record>
+    <!-- Listado Presupuestos pedidos -->
+    <record id="view_sale_order_quotation_q2_ws_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.quotation.q2_ws_tree_inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <!--
+                  ('waitcom'  ,'EED Acción comercial'),   #'En espera de accion comercial'
+                  ('waitcfm'  ,'EED Confirmacién'),       #'En espera de confirmacién'
+                  ('waitmt'   ,'EED Material'),           #'En espera de material'
+                  ('stin'     ,'ST Entrada'),             #'Entrada al servicio técnico'
+                  ('stwait'   ,'ST En espera'),           #'En espera de turno en taller'
+                  ('strun'    ,'ST En proceso'),          #'En ejecución'
+                  ('stout'    ,'ST Salida'),              #'Salida de taller'
+                  ('stend'    ,'ST Finalizado'),          #'Finalizado'            
+                -->
+                <field name="q2_ws_status" string="Estado Taller" optional="show" widget="badge"
+                       decoration-danger="q2_ws_status == 'waitcom'"
+                       decoration-warning="q2_ws_status == 'waitcfm'"
+                       decoration-muted="q2_ws_status == 'waitmt'"
+                       decoration-primary="q2_ws_status in ['stin','stwait']"
+                       decoration-bf="q2_ws_status in ['stin','stout']"
+                       decoration-success="q2_ws_status == 'strun'"
+                       decoration-info="q2_ws_status in ['stout','stend']"
+                />
+            </field>
+        </field>
+    </record>
+    <!-- Listado A Facturar -->
+    <record id="view_order_tree_q2_ws_tree_view" model="ir.ui.view">
+        <field name="name">sview_order_tree.q2_ws_tree_inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <!--
+                  ('waitcom'  ,'EED Acción comercial'),   #'En espera de accion comercial'
+                  ('waitcfm'  ,'EED Confirmacién'),       #'En espera de confirmacién'
+                  ('waitmt'   ,'EED Material'),           #'En espera de material'
+                  ('stin'     ,'ST Entrada'),             #'Entrada al servicio técnico'
+                  ('stwait'   ,'ST En espera'),           #'En espera de turno en taller'
+                  ('strun'    ,'ST En proceso'),          #'En ejecución'
+                  ('stout'    ,'ST Salida'),              #'Salida de taller'
+                  ('stend'    ,'ST Finalizado'),          #'Finalizado'            
+                -->
+                <field name="q2_ws_status" string="Estado Taller" optional="show" widget="badge"
+                       decoration-danger="q2_ws_status == 'waitcom'"
+                       decoration-warning="q2_ws_status == 'waitcfm'"
+                       decoration-muted="q2_ws_status == 'waitmt'"
+                       decoration-primary="q2_ws_status in ['stin','stwait']"
+                       decoration-bf="q2_ws_status in ['stin','stout']"
+                       decoration-success="q2_ws_status == 'strun'"
+                       decoration-info="q2_ws_status in ['stout','stend']"
+                />
+            </field>
+        </field>
+    </record>
+
+
+  </data>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_sale_order_q2_sale_order_extend_form" model="ir.ui.view">
+        <field name="name">view.q2_sale_order_extend.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='client_order_ref']" position="replace">
+            </xpath>
+            <xpath expr="//group[@name='partner_details']" position="inside">
+                <field name="client_order_ref"/>
+            </xpath>
+            <xpath expr="//group[@name='order_details']" position="inside">
+              <field name="q2_sale_status" string="Estado del pedido" 
+              attrs="{'invisible': [('state', 'not in', ['sale'])]}"/>
+            </xpath>
+            <xpath expr="//form/header/field[@name='state']" position="before">
+              <button name="checked_production" string="Servicio Taller finalizado" type="object" class="oe_highlight" attrs="{'invisible': [('q2_sale_status', 'not in', ['taller'])]}" />
+              <button name="checked_dropship" string="Envio directo realizado" type="object" class="oe_highlight" attrs="{'invisible': [('q2_sale_status', 'not in', ['directo'])]}" />
+              <button name="checked_receips" string="Recepcionado" type="object" class="oe_highlight" attrs="{'invisible': [('q2_sale_status', 'not in', ['recepcionar'])]}" />
+              <button name="checked_picking" string="Preparado" type="object" class="oe_highlight" attrs="{'invisible': [('q2_sale_status', 'not in', ['preparar'])]}" />
+              <button name="checked_delivery" string="Entregado" type="object" class="oe_highlight" attrs="{'invisible': [('q2_sale_status', 'not in', ['entregar'])]}" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_quotation_q2_sale_order_details_extend_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.quotation.q2_sale_order_details_extend.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name="write_date" string="Actualizado" widget="date" readonly="1" optional="show"/>
+                <field name="signed_by" string="Firmado por" optional="show"/>
+
+            </xpath>
+            <xpath expr="//field[@name='activity_ids']"  position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <field name="state" position="after">
+                <field name="q2_sale_status" optional="show" widget="badge"
+                       decoration-muted="q2_sale_status == 'pendiente'"
+                       decoration-warning="q2_sale_status == 'preparar'"
+                       decoration-primary="q2_sale_status == 'entregar'"
+                       decoration-success="q2_sale_status == 'facturar'"
+                       decoration-info="q2_sale_status == 'facturado'"
+                       decoration-danger="q2_sale_status == 'devuelto'"
+            />
+            <field name="invoice_status" optional="show" widget="badge"
+                       decoration-success="invoice_status == 'invoiced'"
+            />
+            </field>
+        </field>
+    </record>
+
+    <record id="search_view_sale_q2_sale_order_details_extend_tree_view" model="ir.ui.view">
+        <field name="name">q2_sale_order_details_extend.tree.search.inherit</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="model">sale.order</field>
+        <!-- field name="type">search</field -->
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='name']" position="replace">
+                <field name="name" string="Order" filter_domain="['|','|','|',('name', 'ilike', self),('client_order_ref', 'ilike', self),('partner_id', 'child_of', self),('order_line', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_q2_sale_order_details_extend_tree_view" model="ir.ui.view">
+        <field name="name">sale.order_q2_sale_order_details_extend.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="client_order_ref" readonly="1" optional="show"/>
+            </field>
+            <field name="state" position="after">
+                <field name="q2_sale_status" optional="show" widget="badge"
+                       decoration-muted="q2_sale_status == 'pendiente'"
+                       decoration-warning="q2_sale_status == 'preparar'"
+                       decoration-primary="q2_sale_status == 'entregar'"
+                       decoration-success="q2_sale_status == 'facturar'"
+                       decoration-info="q2_sale_status == 'facturado'"
+                       decoration-danger="q2_sale_status == 'devuelto'"
+                />
+                <field name="invoice_status" optional="show" widget="badge"
+                        decoration-success="invoice_status == 'invoiced'"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>

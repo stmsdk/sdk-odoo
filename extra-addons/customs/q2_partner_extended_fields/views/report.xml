@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data> 
+        <template id="account_report_invoice_document_q2_partner_extended__inherit" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@name='reference']" position="before">
+                <t t-if="o.partner_id.q2_partner_id != ''"> 
+                    <div class="col-auto col-3 mw-100 mb-2" t-if="o.ref" name="reference">
+                        <strong>Cod.Cliente:</strong>
+                        <p class="m-0">
+                            <span t-field="o.partner_id.q2_partner_id"/>
+                            <t t-if="o.partner_id.q2_rmh_id != ''"> 
+                                <span> / </span> 
+                                <span t-field="o.partner_id.q2_rmh_id"/>
+                            </t>
+                        </p>
+                    </div>
+                </t>    
+            </xpath>
+            <xpath expr="//div[@name='origin']" position="replace">
+            </xpath>
+        </template>
+        <!-- Incorporamos el codifgo de cliente de clasic en los presupuestos -->
+        <template id="sale_report_saleorder_document_q2_partner_extended__inherit" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//div[@t-if='doc.user_id.name']" position="after">
+                <div t-if="doc.partner_id.q2_partner_id != ''" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Cod.Cliente:</strong>
+                    <p class="m-0">
+                        <span t-field="doc.partner_id.q2_partner_id"/>
+                        <t t-if="doc.partner_id.q2_rmh_id != ''"> 
+                            <span> / </span> 
+                            <span t-field="doc.partner_id.q2_rmh_id"/>
+                        </t>
+                    </p>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

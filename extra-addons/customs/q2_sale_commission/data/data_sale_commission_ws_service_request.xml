@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data noupdate="1">
+    <record id="sale_order_ws_service_request_01" model="q2_ws_service_request">
+        <field name="name">Verificar</field>
+    </record>
+    <record id="sale_order_ws_service_request_02" model="q2_ws_service_request">
+        <field name="name">Limpieza/Baqueteado</field>
+    </record>
+    <record id="sale_order_ws_service_request_03" model="q2_ws_service_request">
+        <field name="name">Reparar</field>
+    </record>
+    <record id="sale_order_ws_service_request_04" model="q2_ws_service_request">
+        <field name="name">Soldar</field>
+    </record>
+    <record id="sale_order_ws_service_request_05" model="q2_ws_service_request">
+        <field name="name">Tubería reparacion</field>
+    </record>
+    <record id="sale_order_ws_service_request_06" model="q2_ws_service_request">
+        <field name="name">Tubería engatillado</field>
+    </record>
+    <record id="sale_order_ws_service_request_07" model="q2_ws_service_request">
+        <field name="name">Cambio de Bloque/Panal</field>
+    </record>
+    <record id="sale_order_ws_service_request_08" model="q2_ws_service_request">
+        <field name="name">Fabricar deposito</field>
+    </record>
+    <record id="sale_order_ws_service_request_09" model="q2_ws_service_request">
+        <field name="name">Fabricar enfriador</field>
+    </record>
+    <record id="sale_order_ws_service_request_10" model="q2_ws_service_request">
+        <field name="name">Fabricar sobre muestra</field>
+    </record>
+    <record id="sale_order_ws_service_request_11" model="q2_ws_service_request">
+        <field name="name">Limpieza Filtro Particula</field>
+    </record>
+    <record id="sale_order_ws_service_request_12" model="q2_ws_service_request">
+        <field name="name">Limpieza Circuito</field>
+    </record>
+    <record id="sale_order_ws_service_request_13" model="q2_ws_service_request">
+        <field name="name">Carga</field>
+    </record>
+</data>
+

@@ -1,0 +1,58 @@
+<odoo>
+    <record id="q2_product_template_form_view" model="ir.ui.view">
+        <field name="name">q2_product.template.form.view.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="inside">
+                <group name="public_detail">
+                    <group string="Referencias">
+                        <field name="q2_brand" string="Fabricante-Marca" placeholder="Seleccionar fabricante del producto"/>
+                        <field name="q2_ref_catalog" string="Ref. Catalogo" placeholder="Referencias catalogo" />
+                        <field name="q2_ref_brand_long" string="Ref. fabricante larga" placeholder="Referencias fabricante larga" />
+                        <field name="q2_ref_brand_short" string="Ref. fabricante corta" placeholder="Referencias fabricante corta" />
+                        <field name="q2_ref_equivalents" string="Ref. Equivalentes" placeholder="Referencias equivalente" />
+                        <field name="q2_ref_originals" string="Ref. Originales" placeholder="Referencias originales" />
+                        <field name="q2_dimensions" string="Dimensiones" placeholder="Dimensiones del producto" />
+                        <field name="q2_models_compatible" placeholder="Marcas y módelos de vehículos compatibles" />
+                    </group>
+                    <group string="Modelos compatibles">
+                        <field name="q2_models_compatible_html" nolabel="1" widget="html" placeholder="Marcas y módelos de vehículos compatibles para este modelo" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="q2_product_template_form_view_search" model="ir.ui.view">
+        <field name="name">q2_product.template.search (advanced)</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <field name="name" string="Buscar en todo" filter_domain="['|','|','|','|',('name','ilike',self),('q2_ref_catalog','ilike',self),('q2_ref_originals','ilike',self),('q2_ref_equivalents','ilike',self),('q2_models_compatible','ilike',self)]"/>
+                <field name="default_code" filter_domain="[('default_code','ilike',self)]"/>
+                <field name="q2_ref_catalog" filter_domain="[('q2_ref_catalog','ilike',self)]"/>
+                <field name="q2_ref_originals" filter_domain="[('q2_ref_originals','ilike',self)]"/>
+                <field name="q2_ref_equivalents" filter_domain="[('q2_ref_equivalents','ilike',self)]"/>
+                <field name="q2_models_compatible" filter_domain="[('q2_models_compatible','ilike',self)]"/>
+            </search>
+        </field>
+    </record>
+
+        <!-- 
+            <data>
+                <xpath expr="//page/field[@name='order_line']/form//field[@name='product_updatable']" position="after">
+                    <field name="purchase_line_count" invisible="1"/>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/form//field[@name='product_id']" position="attributes">
+                <attribute name="attrs">{'readonly': ['|', ('product_updatable', '=', False), ('purchase_line_count', '&gt;', 0)], 'required': [('display_type', '=', False)],}</attribute>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_updatable']" position="after">
+                    <field name="purchase_line_count" invisible="1"/>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|', ('product_updatable', '=', False), ('purchase_line_count', '&gt;', 0)], 'required': [('display_type', '=', False)],}</attribute>
+                </xpath>
+        </data>
+        -->
+</odoo>

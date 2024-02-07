@@ -1,0 +1,7 @@
+<!-- Registro de configuracion para las vistas CB -->
+<data noupdate="1">
+    <record id="q2_ir_config_ncb_view" model="ir.config_parameter">
+        <field name="key">q2_sale_order_extends_views.ncb</field>
+        <field name="value">False</field>
+    </record>
+</data>

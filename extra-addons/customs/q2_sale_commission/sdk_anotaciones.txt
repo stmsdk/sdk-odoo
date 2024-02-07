@@ -1,0 +1,19 @@
+ACTUALIZACION DE PRECIOS 
+Para un mantenimiento correcto de los margenes los preciosde coste tienen que estar actualizados
+en la tabla de informacion de proveedor tenemos los campos a mantener los preciosde* 
+Modulo: 
+product_supplierinfo
+Fields:
+product_id
+product_tmpl_id
+product_name
+product_code
+price
+
+Podremos actualizar el precio de coste:
+> A traves del un fichero CSV/XLS (Buscar como subir ficheros csv/xls)
+> A traves de la orden compra del producto, actualizando el precio siempre al ultimo valor incluido
+Siempre guardaremos el valor previo al cambio y el usuario que lo actualizados
+field:  
+q2_previous_price
+

@@ -1,0 +1,25 @@
+<odoo>
+    <record id="forma_view_partner_q2_partner_extend_form_view" model="ir.ui.view">
+        <field name="name">q2_partner_extend_form_view.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group/group[2]" position="inside">
+                <field name="q2_partner_id"/>
+                <field name="q2_rmh_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="search_view_partner_q2_partner_extend_tree_view" model="ir.ui.view">
+        <field name="name">q2_res_partner_details_extend.search.inherit</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='name']" position="replace">
+                <field name="name" filter_domain="['|', '|', '|', '|', '|','|', '|',('display_name', 'ilike', self),('ref', '=', self),('vat', 'ilike', self),('q2_partner_id', '=', self),('q2_rmh_id', '=', self),('email', 'ilike', self),('mobile', 'ilike', self),('phone', 'ilike', self)]"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

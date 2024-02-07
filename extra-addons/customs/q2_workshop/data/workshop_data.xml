@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <!-- Etapas --> 
+        <!-- 
+        ('waitin'  ,'EED Recepción'),           #'En espera de recepcionar la pieza'
+        ('waitcom'  ,'EED Acción comercial'),   #'En espera de accion comercial'
+        ('waitcfm'  ,'EED Confirmación'),       #'En espera de confirmacién'
+        ('waitmt'   ,'EED Material'),           #'En espera de material'
+        ('stin'     ,'ST Entrada'),             #'Entrada al servicio técnico'
+        ('stwait'   ,'ST En espera'),           #'En espera de turno en taller'
+        ('strun'    ,'ST En proceso'),          #'En ejecución'
+        ('stout'    ,'ST Salida'),              #'Salida de taller'
+        ('stend'    ,'ST Finalizado'),          #'Finalizado'
+        -->   
+        <record model="q2_workshop.stage" id="q2_workshop_stage_00">
+            <field name="name">Recepción</field>
+            <field name="code">waitin</field>
+            <field name="sequence">0</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_01">
+            <field name="name">EED Acción Comercial</field>
+            <field name="code">waitcom</field>
+            <field name="sequence">5</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_02">
+            <field name="name">EED Confirmación cliente</field>
+            <field name="code">waitcfm</field>
+            <field name="sequence">10</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_03">
+            <field name="name">EED Material</field>
+            <field name="code">waitmt</field>
+            <field name="sequence">15</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <record model="q2_workshop.stage" id="q2_workshop_stage_04">
+            <field name="name">ST Entrada</field>
+            <field name="code">stin</field>
+            <field name="sequence">20</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_05">
+            <field name="name">ST EED Turno</field>
+            <field name="code">stwait</field>
+            <field name="sequence">25</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_06">
+            <field name="name">ST En Ejecución</field>
+            <field name="code">strun</field>
+            <field name="sequence">30</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_07">
+            <field name="name">ST Salida</field>
+            <field name="code">stout</field>
+            <field name="sequence">35</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_08">
+            <field name="name">ST Finalizado</field>
+            <field name="code">stend</field>
+            <field name="sequence">40</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record model="q2_workshop.stage" id="q2_workshop_stage_09">
+            <field name="name">No aceptado</field>
+            <field name="code">nok</field>
+            <field name="sequence">45</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <!-- Tareas -->    
+        <record model="q2_workshop.tag" id="q2_workshop_tag_00">
+            <field name="name">PRE-LAVADO</field>
+            <field name="color">2</field>
+        </record>
+        <record model="q2_workshop.tag" id="q2_workshop_tag_01">
+            <field name="name">VERIFICACIÓN</field>
+            <field name="color">3</field>
+        </record>
+        <record model="q2_workshop.tag" id="q2_workshop_tag_00">
+            <field name="name">LIMPIEZA</field>
+            <field name="color">2</field>
+        </record>
+        <record model="q2_workshop.tag" id="q2_workshop_tag_02">
+            <field name="name">REPARACIÓN</field>
+            <field name="color">1</field>
+        </record>
+        <record model="q2_workshop.tag" id="q2_workshop_tag_03">
+            <field name="name">SUSTITUCIÓN</field>
+            <field name="color">7</field>
+        </record>
+        <record model="q2_workshop.tag" id="q2_workshop_tag_04">
+            <field name="name">FABRICACIÓN</field>
+            <field name="color">9</field>
+        </record>
+    </data>
+</odoo>

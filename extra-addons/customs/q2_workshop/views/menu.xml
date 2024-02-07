@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+    <menuitem
+      id="q2_workshop_menu"
+      name="Servicio Taller"
+      action="q2_workshop_action"
+      web_icon="q2_workshop,static/description/icon.png"
+      sequence="3"
+    />
+    <menuitem
+          id="q2_workshop_menu_configuration"
+          parent="q2_workshop_menu"
+          name="Configuration"
+          sequence="10"
+          groups="base.group_no_one"
+    />
+    <menuitem
+      id="q2_workshop_menu_stage"
+      name="Estado"
+      parent="q2_workshop_menu_configuration"
+      action="q2_workshop_action_stage"
+      sequence="21"
+    />
+    <menuitem
+      id="q2_workshops_menu_tag"
+      name="Etiquetas A"
+      parent="q2_workshop_menu_configuration"
+      action="q2_workshop_action_tag"
+      sequence="22"
+    />
+    <menuitem
+      id="q2_workshops_menu_service_type"
+      name="Tipo de servicio"
+      parent="q2_workshop_menu_configuration"
+      action="q2_workshop_action_service_type"
+      sequence="23"
+    />
+    <menuitem
+      id="q2_workshops_menu_product_type"
+      name="Tipo de producto"
+      parent="q2_workshop_menu_configuration"
+      action="q2_workshop_action_product_type"
+      sequence="24"
+    />
+
+</odoo>

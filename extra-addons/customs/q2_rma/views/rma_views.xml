@@ -1,0 +1,515 @@
+<odoo>
+    <data>
+        <record id="view_q2_rma_form" model="ir.ui.view">
+            <field name="name">view.q2_rma.form.inherit</field>
+            <field name="model">rma</field>
+            <field name="inherit_id" ref="rma.rma_view_form" />
+            <field name="arch" type="xml">
+                <!--    BARRA DE ESTADOS    -->
+                <xpath expr="//field[@name='state']"  position="replace">
+                    <field
+                        name="state_process"
+                        widget="statusbar"
+                    />
+                </xpath>
+                <!--    BOTONES DE INFORMACION    -->
+                <!-- 
+                """
+                ######## VISIBLE INFO BUTTON #############################################################
+                RMA Remoto                  >   action_view_rma_remote                          visible_info_button_rma_remote
+                RMA Pte Recibir             >   action_view_rma_waiting_to_receive              visible_info_button_rma_waiting_to_receive
+                RMA Recibido                >   action_view_rma_received                        visible_info_button_rma_received
+                Venta                       >   action_view_sale_order                          visible_info_button_sale_order  
+                Pte abono Cliente           >   action_view_waiting_refund_sale_to_invoice      visible_info_button_waiting_refund_sale_to_invoice
+                Abonado a Cliente           >   action_view_refund_sale_invoiced                visible_info_button_refund_sale_invoiced 
+                Compra                      >   action_view_purchase_order                      visible_info_button_purchase_order
+                Pte Abono Proveedor         >   action_view_waiting_refund_purchase_to_invoice  visible_info_button_waiting_refund_purchase_to_invoiced
+                Abonado por Proveedor       >   action_view_refund_purchase_invoiced            visible_info_button_refund_purchase_invoiced
+                Enviado a cliente           >   action_view_sent_to_customer                    visible_info_button_sent_to_customer
+                Desechado                   >   action_view_move_scrap                          visible_info_button_move_scrap
+
+
+                -->
+                <xpath expr="//button[@name='action_view_receipt']"  position="replace">
+                    <button
+                        type="object"
+                        string="RMA Remoto"
+                        name="action_view_rma_remote"
+                        class="oe_stat_button"
+                        icon="fa-phone-square"
+                        attrs="{'invisible': [('visible_info_button_rma_remote', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="RMA Recibido"
+                        name="action_view_rma_received"
+                        class="oe_stat_button"
+                        icon="fa-cube"
+                        attrs="{'invisible': [('visible_info_button_rma_received', '=', False)]}"
+                    />
+                </xpath>
+                <div name="button_box">
+                    <button
+                        type="object"
+                        string="Venta"
+                        name="action_view_sale_order"
+                        class="oe_stat_button"
+                        icon="fa-dollar"
+                        attrs="{'invisible': [('visible_info_button_sale_order', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Pte abono Cliente"
+                        name="action_view_waiting_refund_sale_to_invoice"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible': [('visible_info_button_waiting_refund_sale_to_invoice', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Abonado a Cliente"
+                        name="action_view_refund_sale_invoiced"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible': [('visible_info_button_refund_sale_invoiced', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Compra"
+                        name="action_view_purchase_order"
+                        class="oe_stat_button"
+                        icon="fa-credit-card"
+                        attrs="{'invisible': [('visible_info_button_purchase_order', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Pte Abono Proveedor"
+                        name="action_view_waiting_refund_purchase_to_invoice"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible': [('visible_info_button_waiting_refund_purchase_to_invoiced', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Abonado por Proveedor"
+                        name="action_view_refund_purchase"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible': [('visible_info_button_refund_purchase_invoiced', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Enviado a cliente"
+                        name="action_view_sent_to_customer"
+                        class="oe_stat_button"
+                        icon="fa-truck"
+                        attrs="{'invisible': [('visible_info_button_sent_to_customer', '=', False)]}"
+                    />
+                    <button
+                        type="object"
+                        string="Desechado"
+                        name="action_view_move_scrap"
+                        class="oe_stat_button"
+                        icon="fa-trash"
+                        attrs="{'invisible': [('visible_info_button_move_scrap', '=', False)]}"
+                    />
+                </div>
+                <xpath expr="//div[@class='oe_button_box']" position="after">
+                            <div class="oe_button_box">
+                                <!--    RECEPCION O REMOTO              -->
+                                <!-- button
+                                    type="object"
+                                    string="Recibir RMA"
+                                    name="action_view_rma_waiting_to_receive"
+                                    class="oe_stat_button"
+                                    icon="fa-barcode"
+                                    attrs="{'invisible': [('visible_info_button_rma_waiting_to_receive', '=', False)]}"
+                                / -->
+                                <button
+                                    type="object"
+                                    string="Recepcionar RMA"
+                                    name="action_receive_rma_costumer"
+                                    class="oe_stat_button"
+                                    icon="fa-cube"
+                                    attrs="{'invisible': [('can_be_receive_from_costumer', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Gestión Remota RMA"
+                                    name="action_remote_rma_costumer"
+                                    class="oe_stat_button"
+                                    icon="fa-phone-square"
+                                    attrs="{'invisible': [('can_be_receive_from_costumer', '=', False)]}"
+                                />
+                                <!--    VALIDACION     -->
+                                <button
+                                    type="object"
+                                    string="Valoración interna"
+                                    name="action_internal_validate"
+                                    class="oe_stat_button"
+                                    icon="fa-stethoscope"
+                                    attrs="{'invisible': [('can_be_validate', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Valoración externa"
+                                    name="action_external_validate"
+                                    class="oe_stat_button"
+                                    icon="fa-stethoscope"
+                                    attrs="{'invisible': [('can_be_validate', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Valoración Proveedor"
+                                    name="action_supplier_validate"
+                                    class="oe_stat_button"
+                                    icon="fa-stethoscope"
+                                    attrs="{'invisible': [('can_be_validate', '=', False)]}"
+                                />
+                                <!--    GESTION CON INTERNA               -->
+                                <button
+                                    type="object"
+                                    string="Valoración directa"
+                                    name="action_validation_direct_internal"
+                                    class="oe_stat_button"
+                                    icon="fa-flask"
+                                    attrs="{'invisible': [('can_be_validation_direct_internal', '=', False)]}"
+                                />                                
+                                <button
+                                    type="object"
+                                    string="Enviar a taller"
+                                    name="action_validation_delivery_to_internal_test"
+                                    class="oe_stat_button"
+                                    icon="fa-flask"
+                                    attrs="{'invisible': [('can_be_validation_delivery_to_internal_test', '=', False)]}"
+                                />                                
+                                <button
+                                    type="object"
+                                    string="Recibido desde taller"
+                                    name="action_validation_received_from_internal_test"
+                                    class="oe_stat_button"
+                                    icon="fa-flask"
+                                    attrs="{'invisible': [('can_be_validation_received_from_internal_test', '=', False)]}"
+                                />                                
+                                <!--    GESTION CON SERVICIO EXTERNO                            -->
+                                <button
+                                    type="object"
+                                    string="Gestión remota Ext."
+                                    name="action_validation_remote_external"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_remote_external', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Enviar a Externo"
+                                    name="action_validation_delivery_to_external"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_delivery_to_external', '=', False)]}"
+                                />                                
+                                <!--    DESTINO PRODUCTO ENVIADO AL SERVICIO EXTERNO            -->
+                                <button
+                                    type="object"
+                                    string="Recibido desde externo"
+                                    name="action_validation_received_from_external"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_received_from_external', '=', False)]}"
+                                />                                                             
+                                <button
+                                    type="object"
+                                    string="Desechado en externo"
+                                    name="action_validation_send_to_scrap_external"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_send_to_scrap_external', '=', False)]}"
+                                />                                                             
+                                <!--    GESTION CON PROVEEDOR               -->
+                                <button
+                                    type="object"
+                                    string="Enviar a proveedor"
+                                    name="action_validation_delivery_to_supplier"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_delivery_to_supplier', '=', False)]}"
+                                />                                
+                                <button
+                                    type="object"
+                                    string="Gestión remota Prv."
+                                    name="action_validation_remote_supplier"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_remote_supplier', '=', False)]}"
+                                />                                                             
+                                <!--    DESTINO PRODUCTO ENVIADO AL PROVEEDOR  (UNA VEZ RESUELTO)           -->
+                                <button
+                                    type="object"
+                                    string="Recibido desde proveedor"
+                                    name="action_validation_received_from_supplier"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_received_from_supplier', '=', False)]}"
+                                />                                                             
+                                <button
+                                    type="object"
+                                    string="Desechado en proveedor"
+                                    name="action_validation_send_to_scrap_supplier"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_validation_send_to_scrap_supplier', '=', False)]}"
+                                />                                                             
+                                <!--    RESOLUCION TECNICA               -->
+                                <button
+                                    type="object"
+                                    string="Valizadión aceptada"
+                                    name="action_resolution_accepted"
+                                    class="oe_stat_button"
+                                    icon="fa-check-circle"
+                                    attrs="{'invisible': [('can_be_resolution_accepted','=',False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Validación rechazada"
+                                    name="action_resolution_rejected"
+                                    class="oe_stat_button"
+                                    icon="fa-times-circle"
+                                    attrs="{'invisible': [('can_be_resolution_accepted','=',False)]}"
+                                />
+                                <!--    NEGOCIACION COMERCIAL             -->
+                                <button
+                                    type="object"
+                                    string="Aceptado ABONO"
+                                    name="action_negotiation_accepted_to_refund"
+                                    class="oe_stat_button"
+                                    icon="fa-money"
+                                    attrs="{'invisible': [('can_be_negotiation_accepted_to_refund','=',False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Aceptado REPARAR"
+                                    name="action_negotiation_accepted_to_repair"
+                                    class="oe_stat_button"
+                                    icon="fa-undo"
+                                    attrs="{'invisible': [('can_be_negotiation_accepted_to_repair', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Aceptado REEMPLAZAR"
+                                    name="action_negotiation_accepted_to_replace"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('can_be_negotiation_accepted_to_replace', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Rechazado"
+                                    name="action_negotiation_rejected"
+                                    class="oe_stat_button"
+                                    icon="fa-times-circle-o"
+                                    attrs="{'invisible': [('can_be_negotiation_rejected','=',False)]}"
+                                />
+                                <!-- SOLUCION -->
+                                <button
+                                    type="object"
+                                    string="Abono a cliente"
+                                    name="action_solution_refund_to_customer"
+                                    class="oe_stat_button"
+                                    icon="fa-money"
+                                    attrs="{'invisible': [('can_be_solution_refund_to_customer','=',False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Enviar a reparación"
+                                    name="action_solution_delivery_to_repair"
+                                    class="oe_stat_button"
+                                    icon="fa-undo"
+                                    attrs="{'invisible': [('can_be_solution_delivery_to_repair', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Recibir reparación"
+                                    name="action_solution_receive_repaired"
+                                    class="oe_stat_button"
+                                    icon="fa-undo"
+                                    attrs="{'invisible': [('can_be_solution_receive_repaired', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Solicitar reemplazo"
+                                    name="action_solution_request_for_replace"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('can_be_solution_request_for_replace', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Recibido reemplazo"
+                                    name="action_solution_receive_for_replace"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('can_be_solution_receive_for_replace', '=', False)]}"
+                                />
+                                <!--    DESTINO DEL PRODUCTO (SI HAY RECEPCION)           -->
+                                <button
+                                    type="object"
+                                    string="Enviar al cliente"
+                                    name="action_location_delivery_to_customer"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    attrs="{'invisible': [('can_be_location_delivery_to_customer', '=', False)]}"
+                                ></button>   
+                                <button
+                                    type="object"
+                                    string="Enviar a stock"
+                                    name="action_location_send_to_stock"
+                                    class="oe_stat_button"
+                                    icon="fa-boxes-stacked"
+                                    attrs="{'invisible': [('can_be_location_send_to_stock', '=', False)]}"
+                                />
+                                <button
+                                    type="object"
+                                    string="Enviar a chatarra"
+                                    name="action_location_send_to_scrap"
+                                    class="oe_stat_button"
+                                    icon="fa-trash"
+                                    attrs="{'invisible': [('can_be_location_send_to_scrap', '=', False)]}"
+                                />
+                            </div>
+                </xpath>
+                <xpath expr="//div[@class='oe_title']/h1" position="after">
+                    <widget name="web_ribbon" title="RMA ACEPTADO REPARAR"  attrs="{'invisible': [('visible_ribbon_rma_accepted_repair', '=', False)]}"/>
+                    <widget name="web_ribbon" title="RMA ACEPTADO REEMPLAR" attrs="{'invisible': [('visible_ribbon_rma_accepted_replace', '=', False)]}"/>
+                    <widget name="web_ribbon" title="RMA ACEPTADO ABONAR"   attrs="{'invisible': [('visible_ribbon_rma_accepted_refund', '=', False)]}"/>
+                    <widget name="web_ribbon" title="RMA RECHAZADO" bg_color="bg-danger" attrs="{'invisible': [('visible_ribbon_rma_rejected', '=', False)]}"/>
+                </xpath>
+                <!-- xpath expr="//sheet/group" position="inside">
+                    <widget name="web_ribbon" title="RMA PROVEEDOR ACEPTADO" bg_color="#00F" attrs="{'invisible': [('state', '!=', 'refunded')]}"/>
+                    <widget name="web_ribbon" title="RMA PROVEEDOR RECHAZADO" bg_color="FFA500" attrs="{'invisible': [('state', '!=', 'returned')]}"/>
+                </xpath --> 
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="state" string="Estado estado del RMA" invisible="0" />
+                    <field name="rma_owner_product" string="Producto en" invisible="0" />
+                    <field name="rma_type_validation" string="Tipo de validacin" invisible="0" />
+                    <field name="rma_type_resolution" string="Valoración técnica" invisible="0" />
+                    <field name="rma_type_negotiation" string="Valoración comercial" invisible="0" />
+                    <field name="rma_type_solution" string="Solución aportada" invisible="0" />
+                    <field name="rma_type_resolution_supplier" string="Valoración del proveedor" invisible="0" />
+                    <field name="rma_type_solution_supplier" string="Solución dada por el proveedor" invisible="0" />
+                    <field name="rma_type_final_location" string="Destino final del producto" invisible="0" />
+
+                    <field name="state_purchase" string="Estado gestion proveedor" invisible="0" />
+                    <field name="purchase_supplier_partner_id" string="Proveedor" invisible="0" />
+                    <field name="origin_purchase"  string="Orden de compra asociada" attrs="{'invisible': [('state_purchase', '=', 'no_purchase')]}"/>
+                    <field name="supplier_reference_purchase"  string="Doc. de compra proveedor" attrs="{'invisible': [('state_purchase', '=', 'no_purchase')]}"/>
+                    <field name="purchase_date_order"  string="Fecha de compra" attrs="{'invisible': [('state_purchase', '=', 'no_purchase')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='operation_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@class='oe_title']" position="before">
+                            <h1>
+                                <field name="operation_id" readonly="1" />
+                            </h1>
+                </xpath>
+                <xpath expr="//field[@name='origin']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='team_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='finalization_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_refund']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_replace']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_return']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_view_refund']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <sheet>
+   
+                    <field name="visible_info_button_rma_waiting_to_receive" invisible="1" />
+                    <field name="visible_info_button_rma_received" invisible="1" />
+                    <field name="visible_info_button_rma_remote" invisible="1" />
+                    <field name="visible_info_button_sale_order" invisible="1" />
+                    <field name="visible_info_button_purchase_order" invisible="1" />
+                    <field name="visible_info_button_waiting_refund_purchase_to_invoiced" invisible="1" />
+                    <field name="visible_info_button_refund_purchase_invoiced" invisible="1" />
+                    <field name="visible_info_button_waiting_refund_sale_to_invoice" invisible="1" />
+                    <field name="visible_info_button_refund_sale_invoiced" invisible="1" />
+                    <field name="visible_info_button_sent_to_customer" invisible="1" />
+                    <field name="visible_info_button_move_scrap" invisible="1" />
+                    <field name="visible_ribbon_rma_accepted_repair" invisible="1" />
+                    <field name="visible_ribbon_rma_accepted_replace" invisible="1" />
+                    <field name="visible_ribbon_rma_accepted_refund" invisible="1" />
+                    <field name="visible_ribbon_rma_rejected" invisible="1" />
+                
+                    <field name="can_be_receive_from_costumer" invisible="1" />
+                    <field name="can_be_validate" invisible="1" />
+                    <field name="can_be_validate" invisible="1" />
+                    <field name="can_be_validation_direct_internal" invisible="1" />
+                    <field name="can_be_validation_delivery_to_internal_test" invisible="1" />
+                    <field name="can_be_validation_received_from_internal_test" invisible="1" />
+                    <field name="can_be_validation_remote_external" invisible="1" />
+                    <field name="can_be_validation_delivery_to_external" invisible="1" />
+                    <field name="can_be_validation_received_from_external" invisible="1" />
+                    <field name="can_be_validation_send_to_scrap_external" invisible="1" />
+                    <field name="can_be_validation_remote_supplier" invisible="1" />
+                    <field name="can_be_validation_delivery_to_supplier" invisible="1" />
+                    <field name="can_be_validation_received_from_supplier" invisible="1" />
+                    <field name="can_be_validation_send_to_scrap_supplier" invisible="1" />
+
+                    <field name="can_be_resolution_accepted" invisible="1" />
+                    <field name="can_be_resolution_rejected" invisible="1" />
+
+                    <field name="can_be_negotiation_accepted_to_repair" invisible="1" />
+                    <field name="can_be_negotiation_accepted_to_replace" invisible="1" />
+                    <field name="can_be_negotiation_accepted_to_refund" invisible="1" />
+                    <field name="can_be_negotiation_rejected" invisible="1" />
+
+                    <field name="can_be_solution_refund_to_customer" invisible="1" />
+                    <field name="can_be_solution_delivery_to_repair" invisible="1" />
+                    <field name="can_be_solution_receive_repaired" invisible="1" />
+                    <field name="can_be_solution_request_for_replace" invisible="1" />
+                    <field name="can_be_solution_receive_for_replace" invisible="1" />
+
+                    <field name="can_be_location_delivery_to_customer" invisible="1" />
+                    <field name="can_be_location_send_to_stock" invisible="1" />
+                    <field name="can_be_location_send_to_scrap" invisible="1" />
+                    
+                    <field name="rma_owner_product" invisible="1" />
+                    <field name="rma_type_validation" invisible="1" />
+                    <field name="rma_type_resolution" invisible="1" />
+                    <field name="rma_type_negotiation" invisible="1" />
+                    <field name="rma_type_solution" invisible="1" />
+                    <field name="rma_type_resolution_supplier" invisible="1" />
+                    <field name="rma_type_solution_supplier" invisible="1" />
+                    <field name="rma_type_final_location" invisible="1" />
+                    
+                </sheet>
+            </field>
+        </record>
+
+        <record id="view_q2_rma_tree" model="ir.ui.view">
+            <field name="name">view.q2_rma.tree.inherit</field>
+            <field name="model">rma</field>
+            <field name="inherit_id" ref="rma.rma_view_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="state_purchase" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

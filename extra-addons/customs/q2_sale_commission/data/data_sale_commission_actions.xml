@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data noupdate="1">
+    <record id="sale_commission_actions_manager" model="sale.commission.actions">
+        <field name="name">Manager account</field>
+        <field name="field_action">user_id</field>
+        <field name="percent">5</field>
+    </record>
+    <record id="sale_commission_actions_recovery" model="sale.commission.actions">
+        <field name="name">Recovery account</field>
+        <field name="field_action">q2_agent_recovery_id</field>
+        <field name="percent">5</field>
+    </record>
+    <record id="sale_commission_actions_capture" model="sale.commission.actions">
+        <field name="name">Capture account</field>
+        <field name="field_action">q2_agent_capture_id</field>
+        <field name="percent">10</field>
+    </record>
+    <record id="sale_commission_actions_budget" model="sale.commission.actions">
+        <field name="name">Manager account</field>
+        <field name="field_action">q2_agent_budget_id</field>
+        <field name="percent">50</field>
+    </record>
+    <record id="sale_commission_actions_confirm" model="sale.commission.actions">
+        <field name="name">Sale confirm</field>
+        <field name="field_action">q2_agent_confirm_id</field>
+        <field name="percent">10</field>
+    </record>
+    <record id="sale_commission_actions_purchase" model="sale.commission.actions">
+        <field name="name">Purchase supplier confirm</field>
+        <field name="field_action">q2_agent_purchase_id</field>
+        <field name="percent">20</field>
+    </record>
+</data>

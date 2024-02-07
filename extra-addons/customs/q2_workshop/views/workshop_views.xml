@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- workshop Stage Action -->
+    <record id="q2_workshop_action_stage" model="ir.actions.act_window">
+        <field name="name">Stages</field>
+        <field name="res_model">q2_workshop.stage</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('user_id','=',uid)]</field>
+    </record>
+
+    <!-- workshop Tag Action -->
+    <record id="q2_workshop_action_tag" model="ir.actions.act_window">
+      <field name="name">Tags</field>
+      <field name="res_model">q2_workshop.tag</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Add a new tag
+        </p>
+      </field>
+    </record>
+
+    <!-- workshop Service Type  Action -->
+    <record id="q2_workshop_action_service_type" model="ir.actions.act_window">
+      <field name="name">Tipo de servicio</field>
+      <field name="res_model">q2_workshop.service_type</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Add a new service type
+        </p>
+      </field>
+    </record>
+
+
+    <!-- workshop Tag Action -->
+    <record id="q2_workshop_action_product_type" model="ir.actions.act_window">
+      <field name="name">Tipo de producto</field>
+      <field name="res_model">q2_workshop.product_type</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Add a new product type
+        </p>
+      </field>
+    </record>
+
+
+    <!-- workshop Tag Form View -->
+    <record id="q2_workshop_tag_view_form" model="ir.ui.view">
+      <field name="name">q2_workshop.tag.form</field>
+      <field name="model">q2_workshop.tag</field>
+      <field name="arch" type="xml">
+        <form string="Tags">
+          <group>
+            <field name="name"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <!-- workshop Tag Tree View -->
+    <record id="q2_workshop_tag_view_tree" model="ir.ui.view">
+      <field name="name">q2_workshop.tag.tree</field>
+      <field name="model">q2_workshop.tag</field>
+      <field name="arch" type="xml">
+        <tree string="Tags" editable="bottom">
+            <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- workshop Product Type Form View -->
+    <record id="q2_workshop_product_type_view_form" model="ir.ui.view">
+      <field name="name">q2_workshop.product_type.form</field>
+      <field name="model">q2_workshop.product_type</field>
+      <field name="arch" type="xml">
+        <form string="Product type">
+          <group>
+            <field name="name"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <!-- workshop Product Type Tree View -->
+    <record id="q2_workshop_product_type_view_tree" model="ir.ui.view">
+      <field name="name">q2_workshop.product_type.tree</field>
+      <field name="model">q2_workshop.product_type</field>
+      <field name="arch" type="xml">
+        <tree string="Tipo de producto" editable="bottom">
+            <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- workshop Service Type Form View -->
+    <record id="q2_workshop_service_type_view_form" model="ir.ui.view">
+      <field name="name">q2_workshop.service_type.form</field>
+      <field name="model">q2_workshop.service_type</field>
+      <field name="arch" type="xml">
+        <form string="Service type">
+          <group>
+            <field name="name"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <!-- workshop Service Type Tree View -->
+    <record id="q2_workshop_service_type_view_tree" model="ir.ui.view">
+      <field name="name">q2_workshop.service_type.tree</field>
+      <field name="model">q2_workshop.service_type</field>
+      <field name="arch" type="xml">
+        <tree string="Tipo de servicio" editable="bottom">
+            <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- New workshop Kanban View -->
+    <record id="view_q2_workshop_kanban" model="ir.ui.view">
+      <field name="name">q2_workshop.kanban</field>
+      <field name="model">q2_workshop</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="stage_id" 
+                class="oe_notes oe_kanban_quickcreate_textarea o_kanban_small_column" 
+                create="false"
+                group_create="false"  
+                group_delete='false' 
+                group_edit="false"  
+                archivable="false" 
+                records_draggable="false"
+                on_create="false"
+        >
+          <field name="color"/>
+          <field name="sequence"/>
+          <field name="name"/>
+          <field name="stage_id"/>
+          <field name="sale_id"/>
+          <field name="open"/>
+          <field name="memo"/>
+          <field name="date_done"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click_edit oe_semantic_html_override oe_kanban_card">
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <div class="o_dropdown_kanban dropdown">
+                    <a role="button" 
+                            class="dropdown-toggle o-no-caret btn" 
+                            data-toggle="dropdown" 
+                            data-display="static" 
+                            href="#" 
+                            aria-label="Dropdown menu" 
+                            title="Dropdown menu">
+                        <span class="fa fa-ellipsis-v"/>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <!-- a role="menuitem" 
+                            type="delete" 
+                            class="dropdown-item">Delete</a -->
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </div>
+                </div>
+                  <span>
+                    <a name="action_close" type="object" t-if="record.open.raw_value"><i class="fa fa-check" role="img" aria-label="Opened" title="Opened"/></a>
+                    <a name="action_open" type="object" t-if="!record.open.raw_value"><i class="fa fa-undo" role="img" aria-label="Closed" title="Closed"/></a>
+                  </span>
+                <!-- kanban workshop -->
+                  <!-- title -->
+                  <a type="button">
+                    <button
+                          name="action_view_sale_order"
+                          icon="fa-dollar"
+                          string="Venta"
+                          type="object"
+                          attrs="{'invisible': [('sale_id', '=', False)]}"
+                    >
+                      <field name="origin"/>
+                    </button>
+                    <br/>
+                    <field name="name"/>
+                    <!-- field name="img_attach" widget='image'/ -->
+
+                  </a>
+                <!-- span t-attf-class="oe_kanban_content #{record.open.raw_value ? '' : 'note_text_line_through'}">
+                  <div class="o_kanban_inline_block float-right mr4">
+                    <field name="activity_ids" widget="kanban_activity" />
+                  </div>
+                </span -->
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <!-- New workshop Tree View -->
+    <record id="view_q2_workshop_tree" model="ir.ui.view">
+      <field name="name">q2_workshop.tree</field>
+      <field name="model">q2_workshop</field>
+      <field name="arch" type="xml">
+        <tree string="Stages">
+          <field name="origin"/>
+          <field name="name"/>
+          <field name="stage_id"/>
+          <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+          <field name="open"/>
+          <field name="activity_ids" widget="list_activity" optional="show"/>
+          <!-- field name="img_attach" widget="image" / -->
+        </tree>
+      </field>
+    </record>
+
+    <!-- New workshop Form View -->
+    <record id="view_q2_workshop_form" model="ir.ui.view">
+        <field name="name">q2_workshop.form</field>
+        <field name="model">q2_workshop</field>
+        <field name="arch" type="xml">
+            <form string="Servicio Taller" class="oe_form_nomargin o_note_form_view">
+                <header>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" placeholder="Tags"/>
+                    <field name="stage_id" domain="[('user_id','=',uid)]" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                  <field name="memo" type="html" class="oe_memo"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <!-- field name="message_follower_ids"/ -->
+                    <!-- field name="activity_ids"/ -->
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search workshop  -->
+    <record id="view_q2_workshop_filter" model="ir.ui.view">
+      <field name="name">q2_workshop.search</field>
+      <field name="model">q2_workshop</field>
+      <field name="arch" type="xml">
+        <search string="Servicio Taller">
+          <field name="memo" string="Servicio Taller"/>
+          <field name="tag_ids"/>
+          <filter name="open_true" string="Active" domain="[('open', '=', True)]"/>
+          <filter name="open_false" string="Archive" domain="[('open', '=', False)]"/>
+          <filter invisible="1" string="Late Activities" name="activities_overdue"
+                  domain="[('my_activity_date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                  help="Show all records which has next action date is before today"/>
+          <filter invisible="1" string="Today Activities" name="activities_today"
+                  domain="[('my_activity_date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+          <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('my_activity_date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+          <group expand="0" string="Group By">
+            <filter string="Stage" name="stage" help="By sticky workshop Category" context="{'group_by':'stage_id'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- Action -->
+    <record id="q2_workshop_action" model="ir.actions.act_window">
+      <field name="name">Servicio Taller</field>
+      <field name="res_model">q2_workshop</field>
+      <field name="view_mode">kanban,tree,form,activity</field>
+      <field name="search_view_id" ref="view_q2_workshop_filter"/>
+      <field name="context">{}</field>
+      <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Add a new personal workshop
+          </p><p>
+            workshops are private, unless you share them by inviting follower on a workshop.
+            (Useful for meeting minutes).
+          </p>
+        </field>
+    </record>
+
+</odoo>

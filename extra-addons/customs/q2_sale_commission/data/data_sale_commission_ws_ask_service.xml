@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data noupdate="1">
+    <record id="sale_order_ws_ask_service_01" model="q2_ws_ask_service">
+        <field name="name">Sin sintomas apreciables</field>
+    </record>
+    <record id="sale_order_ws_ask_service_02" model="q2_ws_ask_service">
+        <field name="name">con fuga</field>
+    </record>
+    <record id="sale_order_ws_ask_service_03" model="q2_ws_ask_service">
+        <field name="name">Se calienta el motor</field>
+    </record>
+</data>

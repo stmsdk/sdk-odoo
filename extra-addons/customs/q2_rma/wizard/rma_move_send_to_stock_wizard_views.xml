@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Tecnativa - David Vidal
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="rma_move_send_to_stock_wizard_view_form" model="ir.ui.view">
+        <field name="model">rma_move_send_to_stock_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="partner_id" string="Cliente"/>
+                        <field name="origin" string="Documento origen"/>
+                        <field name="product_id" string="Producto"/>
+                        <field name="product_uom_qty" string="Cantidad"/>
+                        <field name="product_uom" string="Unidad"/>
+
+                        <field name="picking_type_id" />
+                        <field name="picking_type_code" string="Movimiento"/>
+                        <field name="location_id"  options="{'no_create': True}" 
+                            attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"
+                        />
+                        <field name="location_dest_id" 
+                            options="{'no_create': True}" 
+                            attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"
+                        />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="create_transfer_stock"
+                        string="Enviar a stock"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="rma_move_send_to_stock_wizard_action" model="ir.actions.act_window">
+        <field name="name">Enviar a stock</field>
+        <field name="res_model">rma_move_send_to_stock_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

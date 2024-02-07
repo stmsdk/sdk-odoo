@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="q2_product" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='product_details']/../div[hasclass('col-md-6', 'col-xl-4')]" position="after">
+            <div class="o_not_editable row ">
+                <h4>Referencias originales</h4>
+                <div class="col-md-12 col-xl-12">
+                    <p t-field="product.q2_ref_originals" id="q2_ref_originals" />
+                </div>
+                <h4>Referencias equivalentes</h4>
+                <div class="col-md-12 col-xl-12">
+                    <p t-field="product.q2_ref_equivalents" id="q2_ref_equivalents" />
+                </div>
+                <h4>Marcas y Modelos compatibles</h4>
+                <div class="col-md-12 col-xl-12">
+                    <p t-field="product.q2_models_compatible_html" id="q2_models_compatible_html" class="col-md"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

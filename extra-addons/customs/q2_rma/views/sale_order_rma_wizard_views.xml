@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <record id="q2_rma_sale_order_rma_wizard_form_view" model="ir.ui.view">
+            <field name="name">q2_rma_sale.order.rma.wizard.form</field>
+            <field name="model">sale.order.rma.wizard</field>
+            <field name="inherit_id" ref="rma_sale.sale_order_rma_wizard_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/group[1]"  position="before">
+                    <group>
+                        <h1>Motivo indicado por el cliente</h1>
+                        <field name="custom_description" required="1" nolabel="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='operation_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='location_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//footer" positiion="inside">
+                    <!-- button
+                        name="create_and_open_rma_replace"
+                        string="CAMBIO/REEMPLAZO"
+                        context = "{'rma_operation_type':'is_replace'}"
+                        type="object"
+                        class="btn-primary"
+                    / -->
+                    <button
+                        name="create_and_open_rma_warranty"
+                        string="GARANTIA"
+                        context = "{'rma_operation_type':'is_warranty'}"
+                        type="object"
+                        class="btn-warning"
+                    />
+                    <button
+                        name="create_and_open_rma_refund"
+                        string="DEVOLUCION"
+                        context = "{'rma_operation_type':'is_refund'}"
+                        type="object"
+                        class="btn-danger"
+                    />
+                </xpath>
+                <xpath expr="//button[@name='create_and_open_rma']"  position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

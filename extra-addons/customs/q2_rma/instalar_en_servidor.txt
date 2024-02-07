@@ -1,0 +1,6 @@
+Tenemos el problema de que ya ha estado instalado el modulo de RMA de Oca por lo que entra en conflicto con las secuencias al crear los
+1. Instalaremos os modulos de OCA de RMA rma 14.0
+2. Instalamos q2_rma
+3. cuando desde Sales hagamos un RMA, nos dara un Error de Validacion "La referencia debe ser única por compañía"
+    Esto es debido a que como estuvo instalado el RMA anterior y se hicieron alguns transacciones, el indice o secuencia se solapa
+4. En modo administrador entraremos en ajustes>técnico>secuencias y buscaremos por RMA

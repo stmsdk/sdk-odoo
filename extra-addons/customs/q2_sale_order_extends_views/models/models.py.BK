@@ -1,0 +1,184 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api
+from odoo import tools
+from odoo.tools import float_compare
+from odoo.http import request
+from odoo.exceptions import ValidationError
+
+import re
+#import wdb
+
+class q2_sale_order_extends_views(models.Model):
+    _inherit = 'sale.order'
+    _description = 'q2_sale_order_extends_views.q2_sale_order_extends_views'
+
+    # Campos a incluir en el modelo "sale_order"
+    # Check de control es_CB para determinar si la SO es CB
+    q2_is_cb = fields.Char(default='',string='Recibo',copy=False)
+    # Check de control para determinar si está pagada en caso de ser CB
+    q2_is_pg = fields.Char(default='',string='Pagado',copy=False)
+
+    label_is_cb = fields(compute='_compute_is_cb', string='R', store=False, default='')
+    label_is_pg = fields.Char(compute='_compute_is_pg', string='P', store=False, default='')
+    # Usuario que lo marca como CB
+    q2_user_cb = fields.Many2one('res.users', string='Crea el CB', index=True, store=True)
+    # Usuario que lo marca como CB
+    q2_user_nocb = fields.Many2one('res.users', string='Crea el NOCB', index=True, store=True)
+    # Usuario que realiza el cobro del CB
+    q2_user_pg = fields.Many2one('res.users', string='Cobra el CB', index=True, store=True )
+
+
+#     @api.depends('value')
+#     def _value_pc(self):
+#         for record in self:
+#             record.value2 = float(record.value) / 100
+
+    def _compute_is_cb(self):
+        for r in self:
+            if r.q2_is_cb == 'R':
+                #wdb.set_trace()
+                r.label_is_cb = 'R'
+            else:
+                r.label_is_cb = ''
+
+    def _compute_is_pg(self):
+        for r in self:
+            if r.q2_is_cb == 'R':
+                if r.q2_is_pg == 'P':
+                    #wdb.set_trace()
+                    r.label_is_pg = 'P'
+                else:
+                    r.label_is_pg = ''
+            else:
+                r.label_is_pg = ''
+
+
+    # Metodo que contiene toda la logica del funcionamiento del CB
+    def set_cbpg_client_order_ref(self):
+        self.ensure_one()
+        #wdb.set_trace()
+        cor_ini = self['client_order_ref']
+        cor = ' {} '.format(cor_ini.replace(' ','  ').replace('-','  ').replace('_','  '))
+        #Ver si tenemos el CB fuera de una palabra
+        rp_lcb = "(?is)(\W|^)CB(\W|$)"  #"(?i)[^a-zA-Z]CB[^a-zA-Z]"
+        rp_nolcb = "(?is)(\W|^)NOCB(\W|$)"  #"(?i)[^a-zA-Z]NOCB[^a-zA-Z]"
+        rp_lpg = "(?is)(\W|^)PG(\W|$)"  #"(?i)[^a-zA-Z]PG[^a-zA-Z]"
+        rp_marca = "(?is)\<@X?\>"
+        lcb = re.findall(rp_lcb, cor)
+        nolcb = re.findall(rp_nolcb, cor)
+        lpg = re.findall(rp_lpg, cor)
+        upd_cor = False
+        vals = {}
+        marca = ''
+        # verificamos si contiene CB
+        if lcb:
+            # Si tiene CB actualizamos el registro
+            #vals['q2_is_cb']=True
+            self.q2_is_cb='R'
+            self.q2_user_cb = self.uid
+            upd_cor = True 
+            # reemplazamos los valores de client_order_ref
+            marca = '@'               
+            # Eliminamos el texto de CB
+            cor = re.sub(rp_lcb,'',cor)
+            # Eliminamos la marca de CBPG <@>
+            cor = re.sub(rp_marca,'',cor)
+
+        # Verificamos si queremos quitar el CB con NOCB
+        if nolcb:
+            # Verificamos si ha sido marcada como pagada, 
+            # Si no se ha pagado se puede modificar en caso contrario no se podra modficar
+            upd_cor = True 
+            if not self.q2_is_pg=='P':
+                # Si tiene CB actualizamos el registro
+                self.q2_is_cb=''
+                self.q2_user_nocb = self.uid
+
+                # Eliminamos el texto de CB
+                cor = re.sub(rp_nolcb,'',cor)
+                # Eliminamos la marca de CBPG <@>
+                cor = re.sub(rp_marca,'',cor)
+            else:
+                raise ValidationError(
+                    (
+                        "No es posible modificar el recibo, debido a que ya esta pagado. Consulte con adminiistración"
+                    )
+                )
+        # verificamos si el CB ha sido pagado
+        if lpg:
+            # Si tiene CB actualizamos el registro
+            if self.q2_is_cb=='P': # or vals['q2_is_cb']==True:
+                upd_cor = True 
+                #vals['q2_is_pg']=True    
+                self.q2_is_pg = 'P'              
+                self.q2_user_pg = self.uid
+                marca = '@X'               
+                cor = re.sub(rp_lpg,'',cor)
+                # Eliminamos la marca de CBPG <@>
+                cor = re.sub(rp_marca,'',cor)
+            else:
+                raise ValidationError(
+                    (
+                        "Antes de abonar este recibo debe de marcarse como CB "
+                    )
+                )
+        # Actualizamos datos
+        if upd_cor:
+            #for r in self:
+            if marca is not "": 
+                marca = '[{}]'.format(marca)
+            cor = '{} {} '.format(cor.replace('   ',' ').replace('  ',' '),marca)               
+            #cor = '{} {}/'.format(cor.replace(' CB ','').replace(' cB ','').replace(' Cb ','').replace(' cb ','').replace(' PG ','').replace(' pG ','').replace(' Pg ','').replace(' pg ','').replace('  ',' ').strip(), marca)
+            #vals['client_order_ref']= cor
+            self.client_order_ref = cor
+            #self.sudo().write(vals)
+
+    # Tenemos que sobreescribir el metodo search para poder filtrar por el valor de ncb
+    # Si ncb es True ocultremos cb y si es False lo mostraremos
+    @api.onchange('client_order_ref')
+    def client_order_ref_onchange(self):
+        #wdb.set_trace()
+        self.set_cbpg_client_order_ref()
+
+    # No funciona he probado varrios arreglos y da fallo cuando le añades una clausula
+    '''    @api.model
+    def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):
+        #wdb.set_trace()
+        search_default_my_quotation = self.env.context['search_default_my_quotation']
+        # Chequeamos si la busqueda proviene de sale_order
+        if search_default_my_quotation == 1:
+            if operator == 'ilike' and not (name or '').strip():
+                domain = []
+            elif operator in ('ilike', 'like', '=', '=like', '=ilike'):
+                domain =    [
+                    args or [],
+                    ['|', ('name', operator, name), ('partner_id.name', operator, name)]
+                ]
+                return self._search(domain, limit=limit, access_rights_uid=name_get_uid)
+        return super(q2_sale_order_extends_views, self)._name_search(name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
+    '''
+
+    @api.model
+    def _search(self, args, offset=0, limit=None, order=None, count=True):
+        #wdb.set_trace()
+        # Lo primero que haremos es ver en que modo estamos realizando la busqueda con respecto a la vista CB
+        # crearemos una busqueda especifica por orden de pedido "Forzar busqueda por orden de pedido"
+        ncb = self.env['ir.config_parameter'].sudo().get_param('q2_sale_order_extends_views.ncb', default=False)
+        ncb = eval(ncb)
+        domain = args
+        # Si esta restringida no mostraremos los CB pagados, y mostraremos todo lo que no sea CB y los CB que aun no han sido pagados
+        if ncb:
+            # creamos el nuevo dominio
+            domain = [('q2_is_pg','!=','P')]
+            # Si el ya teniamos filtros en la busqueda los añadimos
+            if len(args)>0:
+                domain = [('q2_is_pg','!=','P'),args]
+
+        # crearemos una busqueda especifica por orden de pedido "Forzar busqueda por orden de pedido"
+        # Si la busqueda es directa por el numero de pedido la mostraremos
+        # crearemos una busqueda especifica por producto "Forzar busqueda por orden de pedido"
+        # Si la busqueda es directa por producto tambien la mostraremos
+
+        return super(q2_sale_order_extends_views, self).search(domain , offset, limit, order, count)
+    

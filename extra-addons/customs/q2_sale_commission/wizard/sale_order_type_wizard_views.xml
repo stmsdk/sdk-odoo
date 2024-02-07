@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+    Copyright 2022 Tecnativa - David Vidal
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). 
+-->
+<odoo>
+    <record id="q2_sale_order_type_wizard_form_view" model="ir.ui.view">
+        <field name="name">q2_sale_order.type_wizard_form</field>
+        <field name="model">q2_sale_order.type_wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <h1>Seleccionar tipo de operación a realizar</h1> 
+                <div  class='oe_button_box'>
+                    <button 
+                        name="action_is_sale"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-barcode icon"
+                        context="{'test_context': False}"
+                    >
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Venta</span>
+                            <span class="o_stat_text">Producto</span>
+                        </div>
+                    </button>
+                    <button 
+                        name="action_is_service"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-wrench icon"
+                        context="{'test_context': True}"
+                    >
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Servicio</span>
+                            <span class="o_stat_text">Taller</span>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+<!-- 
+>> wizard/wizard.xml # Plantilla XML del wizard ############################################################
+<record id="view_mrp_product_done_wizard" model="ir.ui.view">
+   <field name="name">mrp.product.produce.wizard.view</field>
+   <field name="model">mrp.product.produce.wizard</field>
+   <field name="type">form</field>
+   <field name="arch" type="xml">
+       <form>
+           <field name="produce_line_ids" widget="one2many_list">
+               <tree string="Mrp production lines" editable="bottom">
+                   <field name="product_produce_id" invisible="1"/>
+                   <field name="production_id"/>
+                   <field name="product_id"/>
+                   <field name="qty"/>
+               </tree>
+           </field>
+           <footer>
+               <button name="action_done" string="Confirm" type="object" class="oe_highlight"/>
+               <button string="Cancel" class="btn btn-default" special="cancel"/>
+           </footer>
+       </form>
+   </field>
+</record>
+
+>> wizard/wizard.py # codigo del wizard ############################################################
+class MrpProductProduceWizardLine(models.TransientModel):
+   _name = "mrp.product.produce.wizard.line"
+   _description = "Record Production Line"
+   product_produce_id = fields.Many2one('mrp.product.produce.wizard')
+   production_id = fields.Many2one('mrp.production')
+   product_id = fields.Many2one('product.product', 'Product')
+   qty = fields.Float('Quantity')
+
+>> lunch_action_wizard.py # desde donde se lanza el wizard ############################################
+class MrpProduction(models.Model):
+   _inherit = 'mrp.production'
+
+   # Method for the wizard Mark as Done
+   def action_done_show_wizard(self):
+       production_ids = self.env['mrp.production'].browse(self._context.get('active_ids', False))
+       lines = []
+       for line in production_ids:
+           vals = (0, 0, {
+               'production_id': line.id,
+               'product_id': line.product_id.id,
+               'qty': line.product_qty
+           })
+           lines.append(vals)
+       return {'type': 'ir.actions.act_window',
+               'name': _('Mark as Done'),
+               'res_model': 'mrp.product.produce.wizard',
+               'target': 'new',
+               'view_id': self.env.ref('multiple_mrp_orders.view_mrp_product_done_wizard').id,
+               'view_mode': 'form',
+               'context': {'default_produce_line_ids': lines}
+            }
+-->

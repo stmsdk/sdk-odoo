@@ -1,0 +1,56 @@
+state_process; estado del proceso de RMA;Descripcion
+draft ;Petición ; El cliente solicita la devolución o reembolso por garantia
+reception ;Recepción ; El producto objeto de la devolución o garantia es recepcionado por Soterma
+validation ;Validación ; Valoramos si la devolución se ajust a los criterios marcados que permiten su devolución o garantía
+resolution ;Resolución ; Se dicta una resolución
+negotiation ;Negotiation ; Se resuelve la resolucion con el retorno de la pieza por rechazo o el reembolso o reemplazo de la pieza si es aceptada
+invoicing ;Facturación ; Se le notifica al cliente la resolución y se le envia el documento de rechazo en tal caso, o el albaran de abono o de reemplazo según convenga
+finished ;Finalización ; Una vez se entrega la pieza rechaza o remplazada, o se reembolsa el producto, se da por finalizado el RMA.
+ 
+
+state,Estado del rma
+draft;Draft
+confirmed;Confirmed
+received;Received
+pending_validate;Pendiente de validar
+internal_validate;Validacion Interna
+external_validate;Validacion Externa
+supplier_validate;Validacion Proveedor
+accepted_validate;Validación Aceptada
+reject_validate;Validación Rechazada 
+trade_validate;Validación Comercial
+accepted_by_trade;Aceptada por comercial
+reject_by_trade;Rechazada por comercial 
+waiting_return;Esperando retornar pieza rechazada al cliente
+returned;Retornada la pieza al cliente
+waiting_replacement;Esperando reemplazar la pieza al cliente
+replaced;Reemplazada la pieza al cliente
+waiting_refund;Esperando reembolso
+refunded;Reembolsado
+finished;Finished
+locked;Locked
+cancelled;Canceled
+
+state_purchase; estado de la compra
+no_purchase ;Sin compra
+waiting_action_purchase ;Esperando acción
+waiting_return_supplier ;Esperando devolucion a proveedor
+waiting_response_supplier ;Esperando respuesta proveedor
+reject_by_supplier ;Rechazada por el proveedor
+reject_return_by_supplier ;Esperando producto rechazado
+reject_waiting_return_by_supplier ;Esperando recibir el producto rechazado
+reject_returned ;Recibido rechazo proveedor
+accepted_by_supplier ;Aceptado el reembolso por el prroveedor
+accepted_waiting_confirm_refund ;Esperando confirmación de reembolso de proveedor
+accepted_refunded ;Reembolsado por el proveedor
+
+rma_validate_result;estado de validacion 
+in_progress ;En curso
+accepted ;Aceptado
+reject ;Rechazado
+
+rma_validate_result_by_trade;estado de validacion comercial
+in_progress_by_trade ;En curso
+accepted_by_trade ;Aceptada por comercial
+reject_by_trade ;Rechazada por comercial
+

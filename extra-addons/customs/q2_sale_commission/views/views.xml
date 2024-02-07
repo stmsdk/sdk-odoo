@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="view_q2_sale_commissions_form" model="ir.ui.view">
+        <field name="name">q2_sale_commissions.sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('q2_sale_type', '=', 'none'),('q2_is_salesman', '=', False)]}</attribute> 
+            </xpath>
+            <xpath expr="//button[@name='preview_sale_order']" position="attributes">
+                <attribute name="attrs">{'invisible': [('q2_is_reason', '=', True)]}</attribute> 
+            </xpath>
+            <xpath expr="//group/group[@name='order_details']" position="attributes">
+                <attribute name="attrs">{'invisible': [('q2_is_reason','=', True)]}</attribute> 
+            </xpath>
+            <xpath expr="//sheet/notebook" position="attributes">
+                <attribute name="attrs">{'invisible': [('q2_is_reason','=', True)]}</attribute> 
+            </xpath>
+            <xpath expr="//sheet/div[@class='oe_button_box']"  position="inside">
+                <button 
+                  name="action_is_sale"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-barcode icon"
+                  attrs="{'invisible': [('q2_sale_type', '!=', 'none')]}"
+                  context="{'test_context': False}"
+                >
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_text">Venta</span>
+                      <span class="o_stat_text">Producto</span>
+                  </div>
+                </button>
+                <button 
+                  name="action_is_service"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-wrench icon"
+                  attrs="{'invisible': [('q2_sale_type', '!=', 'none')]}"
+                >
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_text">Servicio</span>
+                      <span class="o_stat_text">Taller</span>
+                  </div>
+                </button>
+                <button 
+                  name="action_salesman_take_reason"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-pencil icon"
+                  attrs="{'invisible': [('q2_visible_take_reason', '=', False)]}"
+                >
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_text">Atender</span>
+                      <span class="o_stat_text">Razón</span>
+                  </div>
+                </button>
+
+                <!-- Botones de razones sobre presupuestos realizados -->
+                <button 
+                  name="action_operator_take_reason"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-pencil icon"
+                  attrs="{'invisible': ['|',('q2_visible_operator_reason', '=', False),('state', '=', 'reason_contact')]}"
+                  context="{'reason_type': 'reason_contact'}"
+                >
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_text">Contactar</span>
+                      <span class="o_stat_text">cliente</span>
+                  </div>
+                </button>
+                <button 
+                  name="action_operator_take_reason"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-pencil icon"
+                  attrs="{'invisible': ['|',('q2_visible_operator_reason', '=', False),('state', 'in', ['sale','reason_client'])]}"
+                  context="{'reason_type': 'reason_confirm'}"
+                >
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_text">Confirmar</span>
+                      <span class="o_stat_text">presupuesto</span>
+                  </div>
+                </button>
+                <button 
+                  name="action_operator_take_reason"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-pencil icon"
+                  attrs="{'invisible': ['|',('q2_visible_operator_reason', '=', False),('state','in',['cancel','reason_reject'])]}"
+                  context="{'reason_type': 'reason_reject'}"
+                >
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_text">Cancelar</span>
+                      <span class="o_stat_text">pedido</span>
+                  </div>
+                </button>
+            </xpath>
+            <xpath expr="//group[@name='sale_header']"  position="inside">
+                <group name="reason_details"  attrs="{'invisible': [('q2_sale_type', '=', 'none')]}">
+                    <field name="q2_sale_type"  string="Tipo de operación"  readonly="1"/>
+                    <field name="q2_ppto_required" string="Requiere Presupuesto" attrs="{'invisible': [('q2_sale_type', '=', 'product')]}"/>
+                    <field name="q2_only_test" string="Solo Probar" attrs="{'invisible': [('q2_sale_type', '=', 'product')]}"/>
+                    <field name="q2_ws_ask_service" string="Sintomas" attrs="{'invisible': [('q2_sale_type', '=', 'product')]}"/>
+                    <field name="q2_ws_service_request" string="Trabajo a realizar" attrs="{'invisible': [('q2_sale_type', '=', 'product')]}"/>
+                    <field name="q2_vehiculo_type"  string="Tipo de vehículo"/>
+                    <field name="q2_vehiculo_model" string="Modelo"/>
+                    <field name="q2_vehiculo_matricula" string="Matrícula"/>
+                    <field name="q2_vehiculo_bastidor" string="Nº Bastidor"/>
+                    <field name="q2_product_ref" string="Ref Original"/>
+                    <field name="q2_products_types_ids" string="Productos"  widget="many2many_tags"/>
+                    <field name="q2_reason_note"/>
+                    <field name="q2_is_salesman" readonly="1"/>
+                    <field name="q2_is_reason" readonly="1"/>
+                    <field name="q2_visible_take_reason" readonly="1"/>
+                    <field name="q2_visible_operator_reason" readonly="1"/>
+                    <field name="user_id"/>
+                    <field name="q2_user_salesman_owner"/>
+                    <field name="q2_user_confirm_sale"/>
+                    <field name="q2_user_confirm_purchase"/>
+                    <field name="q2_user_unlock"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <!-- Ampliacion formulario -->
+    <!-- 
+    <record id="view_sale_order_quotation_q2_sale_order_extends_views_details_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.quotation.q2_sale_order_extends_views_details.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="attributes">
+                  <attribute name="attrs">{"decoration-info": "state == 'reason'"}</attribute>
+                  <attribute name="attrs">{"decoration-primary":"state == 'draft'"}</attribute>
+                  <attribute name="attrs">{"decoration-success":"state == 'sale'"}</attribute>
+                  <attribute name="attrs">{"decoration-warning":"state == 'sent'"}</attribute>
+                  <attribute name="attrs">{"decoration-danger":"state == 'cancel'"}</attribute>
+                  <attribute name="attrs">{"decoration-muted":"state == 'done'"}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_q2_sale_commissions_tree" model="ir.ui.view">
+        <field name="name">q2_sale_commissions.sale.view_quotation_tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="attrs">
+                  {'colors':"yellow:state=='reason';red:state=='reason_reject';blue:state=='reason_contact';green:state=='reason_confirm'"}
+                </attribute> 
+            </xpath>
+        </field>
+    </record>
+    -->
+  </data>
+</odoo>
+

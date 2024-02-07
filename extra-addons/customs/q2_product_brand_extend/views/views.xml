@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="q2_product_brand_extend.form">
+      <field name="name">q2_product_brand.product_brand_extend.form.inherit</field>
+      <field name="model">q2_product_brand.product_brand</field>
+      <field name="inherit_id" ref="q2_product_brand.form" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='q2_code']" position="after">
+                <field name="q2_partner_id"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

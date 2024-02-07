@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_q2_sale_order_agent_q2_sale_order_agent,q2_sale_order_agent.q2_sale_order_agent,model_q2_sale_order_agent_q2_sale_order_agent,base.group_user,1,1,1,1
+access_q2_ws_ask_service,q2_ws_ask_service,model_q2_ws_ask_service,base.group_user,1,1,1,1
+access_q2_ws_service_request,q2_ws_service_request,model_q2_ws_service_request,base.group_user,1,1,1,1
